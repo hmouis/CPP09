@@ -4,17 +4,16 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include <algorithm>
 #include <stdlib.h>
 #include <map>
 
 class BitcoinExchange
 {
     private:
-        char sep;
         std::string date;
         float nob;
         std::map<std::string, float> btc;
-        std::string inputFile;
 
     public:
         BitcoinExchange();
@@ -23,8 +22,10 @@ class BitcoinExchange
         ~BitcoinExchange();
 
         void FillMap();
-};
+        void ParseFile(std::string file);
+        int ParseLine(std::string line);
 
+};
 
 
 #endif

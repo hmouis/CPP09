@@ -1,7 +1,7 @@
 Name= btc
 
 CC= c++ 
-CFLAGS= -Wall -Wextra -Werror -g3
+CFLAGS= -Wall -Wextra -Werror -std=c++98
 src= main.cpp BitcoinExchange.cpp
 obj= $(src:.cpp=.o)
  
