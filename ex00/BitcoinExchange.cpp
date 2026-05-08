@@ -33,6 +33,4 @@ void BitcoinExchange::FillMap(){
         btc[key] = val;
     }
     file.close();
-    for (const auto& item : btc) 
-        std::cout << item.first << ": " << item.second << std::endl;
 }
