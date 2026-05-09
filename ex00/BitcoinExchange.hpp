@@ -2,10 +2,12 @@
 #define BitcoinExchange_hpp
 
 #include <iostream>
+#include <iterator>
 #include <fstream>
 #include <string.h>
 #include <algorithm>
 #include <stdlib.h>
+#include <sstream>
 #include <map>
 
 class BitcoinExchange
@@ -22,6 +24,8 @@ class BitcoinExchange
         ~BitcoinExchange();
 
         void FillMap();
+        int ValidDate(float y, float m, float d);
+        int ValidNumberOfBitcoin(std::string _nob);
         void ParseFile(std::string file);
         int ParseLine(std::string line);
 
