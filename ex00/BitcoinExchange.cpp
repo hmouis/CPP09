@@ -23,7 +23,7 @@ void BitcoinExchange::FillMap(){
 
     std::ifstream file("data.csv");
     if (!file.is_open())
-        throw std::runtime_error("Can't open the file");
+        throw std::runtime_error("Error: Can't open the file");
     std::getline(file, line);
     while (std::getline(file, line)){
         std::string key = strtok((char *)line.c_str(), ",");
@@ -39,8 +39,31 @@ std::string trim(std::string str, char c) {
     size_t last = str.find_last_not_of(c);
     return str.substr(first, (last - first + 1));
 }
-
 float strtofloat(std::string data){
+    std::string year = strtok((char *)data.c_str(), "-");
+    std::string month = strtok(NULL, "-");
+    std::string day = strtok(NULL, "-");
+
+    char *yptr, *mptr, *dptr;
+    float y = strtof(year.c_str(), &yptr);
+    float m = strtof(month.c_str(), &mptr);
+    float d = strtof(day.c_str(), &dptr);
+    if (*yptr || *mptr || *dptr){
+        std::cout << "Error: Ivalide date => " << data << std::endl;
+        return 1;
+    }
+    if (y < 2009 || y > 2147483647){
+        std::cout << "Error: Invalid Year => " << y << std::endl;
+        return 1;
+    }
+    if (m < 1 || m > 12){
+        std::cout << "Error: Invalid month => " << m << std::endl;
+        return 1;
+    }
+    
+
+
+
 
 }
 
@@ -48,13 +71,13 @@ int BitcoinExchange::ParseLine(std::string line)
 {
     int count = std::count(line.begin(), line.end(), '|');
     if (count != 1){
-        std::cout << "There is no or more than one `|`\n";
+        std::cout << "Error: Invalid input => " << line << std::endl;
         return 1;
     }
     date = trim(strtok((char *)line.c_str(), "|"), ' ');
     count = std::count(date.begin(), date.end(), '-');
     if (count != 2){
-        std::cout << "There is one or more than two `-`\n";
+        std::cout << "Error: Invalid input => " << date << std::endl;
         return 1;
     }
     
