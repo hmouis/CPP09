@@ -67,10 +67,15 @@ int BitcoinExchange::ValidNumberOfBitcoin(std::string _nob){
         std::cout << "Error: Bad Number of bitcoin => " << _nob << std::endl;
         return 1;
     }
-    if (nob < 0 || nob > 1000){
+    if (nob > 1000){
         std::cout << "Error: Too large number" << std::endl;
         return 1;
     }
+    else if (nob < 0){
+        std::cout << "Error: Not a positive number" << std::endl;
+        return 1;
+    }
+
     return 0;
 }
 
