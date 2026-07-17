@@ -6,6 +6,7 @@
 #include <cctype>
 #include <iostream>
 #include <stdexcept>
+#include <set>
 
 bool PmergeMe::isValidPositiveInteger(const std::string &value, int &number)
 {
@@ -26,6 +27,7 @@ bool PmergeMe::isValidPositiveInteger(const std::string &value, int &number)
 std::vector<int> PmergeMe::parseInput(int argc, char **argv)
 {
     std::vector<int> numbers;
+    std::set<int> seen;
 
     if (argc < 2)
         throw std::runtime_error("Error");
@@ -35,6 +37,9 @@ std::vector<int> PmergeMe::parseInput(int argc, char **argv)
         int number = 0;
         if (!isValidPositiveInteger(argv[i], number))
             throw std::runtime_error("Error");
+        if (seen.count(number))
+            throw std::runtime_error("Error");
+        seen.insert(number);
         numbers.push_back(number);
     }
     return numbers;
