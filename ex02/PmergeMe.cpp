@@ -24,14 +24,11 @@ bool PmergeMe::isValidPositiveInteger(const std::string &value, int &number)
     return true;
 }
 
-std::vector<int> PmergeMe::parseInput(int argc, char **argv)
+void PmergeMe::parseInput(int argc, char **argv)
 {
-    std::vector<int> numbers;
     std::set<int> seen;
-
     if (argc < 2)
         throw std::runtime_error("Error");
-
     for (int i = 1; i < argc; ++i)
     {
         int number = 0;
@@ -42,16 +39,15 @@ std::vector<int> PmergeMe::parseInput(int argc, char **argv)
         seen.insert(number);
         numbers.push_back(number);
     }
-    return numbers;
 }
 
-void PmergeMe::printSequence(const std::vector<int> &sequence)
+void PmergeMe::printSequence()
 {
-    for (std::vector<int>::size_type i = 0; i < sequence.size(); ++i)
+    for (size_t i = 0; i < numbers.size(); ++i)
     {
         if (i != 0)
             std::cout << ' ';
-        std::cout << sequence[i];
+        std::cout << numbers[i];
     }
     std::cout << std::endl;
 }

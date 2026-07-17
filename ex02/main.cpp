@@ -7,9 +7,10 @@ int main(int argc, char **argv)
 {
     try
     {
-        std::vector<int> numbers = PmergeMe::parseInput(argc, argv);
+        PmergeMe p;
+        p.parseInput(argc, argv);
         std::cout << "Before: ";
-        PmergeMe::printSequence(numbers);
+        p.printSequence();
     }
     catch (const std::exception &e)
     {

@@ -7,11 +7,12 @@
 class PmergeMe
 {
     private:
-        static bool isValidPositiveInteger(const std::string &value, int &number);
+        bool isValidPositiveInteger(const std::string &value, int &number);
+        std::vector<int> numbers;
 
     public:
-        static std::vector<int> parseInput(int argc, char **argv);
-        static void printSequence(const std::vector<int> &sequence);
+        void parseInput(int argc, char **argv);
+        void printSequence();
 };
 
 #endif
