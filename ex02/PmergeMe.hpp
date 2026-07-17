@@ -8,11 +8,12 @@ class PmergeMe
 {
     private:
         bool isValidPositiveInteger(const std::string &value, int &number);
-        std::vector<int> numbers;
+        std::vector<int> vec;
 
     public:
         void parseInput(int argc, char **argv);
         void printSequence();
+        void sortVector();
 };
 
 #endif

@@ -37,17 +37,17 @@ void PmergeMe::parseInput(int argc, char **argv)
         if (seen.count(number))
             throw std::runtime_error("Error");
         seen.insert(number);
-        numbers.push_back(number);
+        vec.push_back(number);
     }
 }
 
 void PmergeMe::printSequence()
 {
-    for (size_t i = 0; i < numbers.size(); ++i)
+    for (size_t i = 0; i < vec.size(); ++i)
     {
         if (i != 0)
             std::cout << ' ';
-        std::cout << numbers[i];
+        std::cout << vec[i];
     }
     std::cout << std::endl;
 }
