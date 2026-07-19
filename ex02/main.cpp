@@ -7,10 +7,8 @@ int main(int argc, char **argv)
 {
     try
     {
-        PmergeMe p;
-        p.parseInput(argc, argv);
-        std::cout << "Before: ";
-        p.printSequence();
+        PmergeMe s;
+        s.sortVector(argc, argv);
     }
     catch (const std::exception &e)
     {

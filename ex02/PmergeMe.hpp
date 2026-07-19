@@ -4,16 +4,29 @@
 #include <string>
 #include <vector>
 
+struct Int{
+    Int(int value): value(value) {}
+    int value;
+    std::vector<int> ids;
+    bool operator<(const Int &n) const;
+};
+std::ostream& operator<<(std::ostream& out, const Int& n);
+
 class PmergeMe
 {
     private:
         bool isValidPositiveInteger(const std::string &value, int &number);
-        std::vector<int> vec;
-
-    public:
+        std::vector<Int> vec;
         void parseInput(int argc, char **argv);
         void printSequence();
-        void sortVector();
+        void mergeInsertSortVect(std::vector<Int> &main);
+        void createPairs(std::vector<Int>& smalls, std::vector<Int>& main);
+        void indexPairs(std::vector<Int>& smalls, std::vector<Int>& bigs);
+        void insert(std::vector<Int>& smalls, std::vector<Int>& bigs);
+
+    public:
+        void sortVector(int ac, char **av);
+
 };
 
 #endif
