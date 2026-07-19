@@ -82,6 +82,23 @@ void PmergeMe::indexPairs(std::vector<Int>& smalls, std::vector<Int>& bigs){
     for (int i = 0; i < bigs.size(); i++)
         smalls[i].ids.push_back(i);
 }
+void PmergeMe::orderTheSmalls(std::vector<Int>& smalls, std::vector<Int>& bigs){
+    std::vector<Int> ordered;
+
+    for (int i = 0; i < bigs.size(); i++){
+        int index = bigs[i].ids.back();
+        std::vector<Int>::iterator it;
+        for (it = smalls.begin(); it != smalls.end(); it++){
+            if (it->ids.back() == index)
+                break;
+        }
+        ordered.push_back(*it);
+        smalls.erase(it);
+    }
+    if (smalls.size() == 1)
+        ordered.push_back(smalls.back());
+    smalls = ordered;
+}
 void PmergeMe::mergeInsertSortVect(std::vector<Int>& main){
     std::vector<Int> smalls;
     
@@ -91,11 +108,14 @@ void PmergeMe::mergeInsertSortVect(std::vector<Int>& main){
     indexPairs(smalls, main);
     mergeInsertSortVect(main);
 
+    orderTheSmalls(smalls, main);
     insert(smalls, main);
 
 }
 void PmergeMe::insert(std::vector<Int>& smalls, std::vector<Int>& bigs){
-    
+
+
+
 }
 void PmergeMe::sortVector(int ac, char **av)
 {

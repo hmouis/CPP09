@@ -23,6 +23,8 @@ class PmergeMe
         void createPairs(std::vector<Int>& smalls, std::vector<Int>& main);
         void indexPairs(std::vector<Int>& smalls, std::vector<Int>& bigs);
         void insert(std::vector<Int>& smalls, std::vector<Int>& bigs);
+        void orderTheSmalls(std::vector<Int>& smalls, std::vector<Int>& main);
+
 
     public:
         void sortVector(int ac, char **av);
