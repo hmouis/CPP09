@@ -79,7 +79,7 @@ void PmergeMe::createPairs(std::vector<Int>& smalls, std::vector<Int>& main){
 void PmergeMe::indexPairs(std::vector<Int>& smalls, std::vector<Int>& bigs){
     for (int i = 0; i < bigs.size(); i++)
         bigs[i].ids.push_back(i);
-    for (int i = 0; i < bigs.size(); i++)
+    for (int i = 0; i < smalls.size(); i++)
         smalls[i].ids.push_back(i);
 }
 void PmergeMe::orderTheSmalls(std::vector<Int>& smalls, std::vector<Int>& bigs){
@@ -87,16 +87,24 @@ void PmergeMe::orderTheSmalls(std::vector<Int>& smalls, std::vector<Int>& bigs){
 
     for (int i = 0; i < bigs.size(); i++){
         int index = bigs[i].ids.back();
+        if (bigs[i].ids.size() > 1)
+            bigs[i].ids.pop_back();
         std::vector<Int>::iterator it;
         for (it = smalls.begin(); it != smalls.end(); it++){
             if (it->ids.back() == index)
                 break;
         }
         ordered.push_back(*it);
+        if (ordered.back().ids.size() > 1)
+            ordered.back().ids.pop_back();
         smalls.erase(it);
     }
-    if (smalls.size() == 1)
+    if (smalls.size() == 1){
         ordered.push_back(smalls.back());
+        if (ordered.back().ids.size() > 1)
+        ordered.back().ids.pop_back();
+    }
+    smalls.clear();
     smalls = ordered;
 }
 void PmergeMe::mergeInsertSortVect(std::vector<Int>& main){
@@ -106,13 +114,90 @@ void PmergeMe::mergeInsertSortVect(std::vector<Int>& main){
         return ;
     createPairs(smalls, main);
     indexPairs(smalls, main);
+    // std::cout << "indexing\n";
+    // std::cout << "main: ";
+    // for (int i = 0; i < main.size(); i++){
+    //     std::cout << main[i] << ' ';
+    //     std::cout << "ids: ";
+    //     for (int j = 0; j < main[i].ids.size(); j++)
+    //         std::cout << main[i].ids[j] << ' ';
+    //     std::cout << std::endl;
+    // }
+    // std::cout << std::endl;
+    // std::cout << "smalls: ";
+    // for (int i = 0; i < smalls.size(); i++){
+    //     std::cout << smalls[i] << ' ';
+    //     std::cout << "ids: ";
+    //     for (int j = 0; j < smalls[i].ids.size(); j++)
+    //         std::cout << smalls[i].ids[j] << ' ';
+    //     std::cout << std::endl;
+    // }
+    // std::cout << std::endl;
     mergeInsertSortVect(main);
-
+    // std::cout << "after recursive call: \n";
+    // std::cout << "main: ";
+    // for (int i = 0; i < main.size(); i++){
+    //     std::cout << main[i] << ' ';
+    //     std::cout << "ids: ";
+    //     for (int j = 0; j < main[i].ids.size(); j++)
+    //         std::cout << main[i].ids[j] << ' ';
+    //     std::cout << std::endl;
+    // }
+    // std::cout << std::endl;
+    // std::cout << "smalls: ";
+    // for (int i = 0; i < smalls.size(); i++){
+    //     std::cout << smalls[i] << ' ';
+    //     std::cout << "ids: ";
+    //     for (int j = 0; j < smalls[i].ids.size(); j++)
+    //         std::cout << smalls[i].ids[j] << ' ';
+    //     std::cout << std::endl;
+    // }
+    // std::cout << std::endl;
     orderTheSmalls(smalls, main);
+    // std::cout << "after ordering: \n";
+    // std::cout << "main: ";
+    // for (int i = 0; i < main.size(); i++){
+    //     std::cout << main[i] << ' ';
+    //     std::cout << "ids: ";
+    //     for (int j = 0; j < main[i].ids.size(); j++)
+    //         std::cout << main[i].ids[j] << ' ';
+    //     std::cout << std::endl;
+    // }
+    // std::cout << std::endl;
+    // std::cout << "smalls: ";
+    // for (int i = 0; i < smalls.size(); i++){
+    //     std::cout << smalls[i] << ' ';
+    //     std::cout << "ids: ";
+    //     for (int j = 0; j < smalls[i].ids.size(); j++)
+    //         std::cout << smalls[i].ids[j] << ' ';
+    //     std::cout << std::endl;
+    // }
+    // std::cout << std::endl;
     insert(smalls, main);
 
 }
+std::vector<int> PmergeMe::getJacobsthalSequence(int n){
+    std::vector<int> sequence;
+    if (n <= 0)
+        return sequence;
+    sequence.push_back(0);
+    if (n == 1)
+        return sequence;
+    sequence.push_back(1);
+    for (int i = 2; i < n; ++i){
+        int next = sequence[i - 1] + 2 * sequence[i - 2];
+        sequence.push_back(next);
+    }
+    return sequence;
+}
 void PmergeMe::insert(std::vector<Int>& smalls, std::vector<Int>& bigs){
+    std::vector<int> seq = getJacobsthalSequence(bigs.size());
+    std::vector<Int> main;
+
+    main.push_back(bigs[0]);
+    for (int i = 1; i < seq.size(); i++){
+        
+    }
 
 
 
@@ -122,9 +207,8 @@ void PmergeMe::sortVector(int ac, char **av)
     parseInput(ac, av);
     std::cout << "Before: ";
     printSequence();
-    std::cout << "After: ";
     mergeInsertSortVect(vec);
-    for (int i = 0; i < vec.size(); i++)
-        std::cout << ' ' << vec[i];
-    std::cout << '\n';
+    // for (int i = 0; i < vec.size(); i++)
+    //     std::cout << ' ' << vec[i];
+    // std::cout << '\n';
 }

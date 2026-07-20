@@ -24,6 +24,7 @@ class PmergeMe
         void indexPairs(std::vector<Int>& smalls, std::vector<Int>& bigs);
         void insert(std::vector<Int>& smalls, std::vector<Int>& bigs);
         void orderTheSmalls(std::vector<Int>& smalls, std::vector<Int>& main);
+        std::vector<int> getJacobsthalSequence(int n);
 
 
     public:
