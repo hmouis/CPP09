@@ -8,11 +8,13 @@
 #include <stdexcept>
 #include <set>
 
+int Int::counter = 0;
 std::ostream& operator<<(std::ostream& out, const Int& n){
     out << n.value;
     return out;
 }
-bool Int::operator<(const Int &n) const{
+bool Int::operator<(const Int &n) {
+    counter++;
     return value < n.value;
 }
 
@@ -142,26 +144,24 @@ std::vector<int> PmergeMe::getJacobsthalSequence(int n){
 void PmergeMe::insert(std::vector<Int>& smalls, std::vector<Int>& bigs){
     std::vector<int> seq;
     std::vector<Int> main;
-    int curr_seq = 1;
 
     seq = getJacobsthalSequence(bigs.size());
-    // std::cout << "\n#####\nseq size: " << seq.size() << "\nbigs size: " << bigs.size() << "\n#####\n";
     main.push_back(smalls[0]);
     int prev = 0;
-
     for (int i = 0; i < seq.size(); i++)
     {
-        curr_seq = seq[i];
-        if (curr_seq > smalls.size())
-            curr_seq = smalls.size();
-
-        for (int j = prev; j < curr_seq; j++)
+        int curr_seq = seq[i];
+        for (int j = prev; j < curr_seq && j < bigs.size(); j++)
             main.push_back(bigs[j]);
+
+        if (curr_seq >= smalls.size())
+            curr_seq = smalls.size() - 1;
 
         for (int j = curr_seq; j > prev; j--)
         {
             std::vector<Int>::iterator it;
             it = std::lower_bound(main.begin(), main.end(), smalls[j].value);
+            // std::cout << "Inserting " << smalls[j] << " at position " << std::distance(main.begin(), it) << std::endl;
             main.insert(it, smalls[j]);
         }
         prev = seq[i];
@@ -178,4 +178,5 @@ void PmergeMe::sortVector(int ac, char **av)
     for (int i = 0; i < vec.size(); i++)
         std::cout << vec[i] << ' ';
     std::cout << '\n';
+    std::cout << "comparisons: " << Int::counter << std::endl;
 }

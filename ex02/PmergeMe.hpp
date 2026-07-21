@@ -6,9 +6,10 @@
 
 struct Int{
     Int(int value): value(value) {}
+    static int counter;
     int value;
     std::vector<int> ids;
-    bool operator<(const Int &n) const;
+    bool operator<(const Int &n);
 };
 std::ostream& operator<<(std::ostream& out, const Int& n);
 
