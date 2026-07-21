@@ -102,7 +102,7 @@ void PmergeMe::orderTheSmalls(std::vector<Int>& smalls, std::vector<Int>& bigs){
     if (smalls.size() == 1){
         ordered.push_back(smalls.back());
         if (ordered.back().ids.size() > 1)
-        ordered.back().ids.pop_back();
+            ordered.back().ids.pop_back();
     }
     smalls.clear();
     smalls = ordered;
@@ -128,53 +128,45 @@ std::vector<int> PmergeMe::getJacobsthalSequence(int n){
     }
     sequence.push_back(0);
     sequence.push_back(1);
-    for (int i = 2; i < n; ++i){
-        int next = sequence[i - 1] + 2 * sequence[i - 2];
-        if (next > n)
-            break;
+    while (true){
+        int next = sequence[sequence.size() - 1] + 2 * sequence[sequence.size() - 2];
         sequence.push_back(next);
+        if (next >= n)
+            break;
     }
-    std::cout << "\n########\n";
-    for (int i = 0; i < sequence.size(); i++){
-        std::cout << ' ' << sequence[i];
-    }
-    std::cout << "\n########\n";
 
     for (int i = 2; i < sequence.size(); ++i)
         newsequence.push_back(sequence[i]);
     return newsequence;
 }
 void PmergeMe::insert(std::vector<Int>& smalls, std::vector<Int>& bigs){
-    std::vector<int> seq = getJacobsthalSequence(bigs.size());
+    std::vector<int> seq;
     std::vector<Int> main;
+    int curr_seq = 1;
 
+    seq = getJacobsthalSequence(bigs.size());
+    // std::cout << "\n#####\nseq size: " << seq.size() << "\nbigs size: " << bigs.size() << "\n#####\n";
     main.push_back(smalls[0]);
-    // std::cout << "seq size = " << seq.size() << "\n";
-    // std::cout << "smalls : " << smalls[0] << "\n";
     int prev = 0;
-    for (int i = 0; i < seq.size(); i++){
-        for (int j = prev; j < seq[i]; j++)
+
+    for (int i = 0; i < seq.size(); i++)
+    {
+        curr_seq = seq[i];
+        if (curr_seq > smalls.size())
+            curr_seq = smalls.size();
+
+        for (int j = prev; j < curr_seq; j++)
             main.push_back(bigs[j]);
-        for (int j = seq[i]; j > prev; j--){
+
+        for (int j = curr_seq; j > prev; j--)
+        {
             std::vector<Int>::iterator it;
-            it = std::lower_bound(main.begin(), main.begin() + j, smalls[j].value);
+            it = std::lower_bound(main.begin(), main.end(), smalls[j].value);
             main.insert(it, smalls[j]);
         }
         prev = seq[i];
     }
-    for (int j = prev; j < bigs.size(); j++)
-        main.push_back(bigs[j]);
-    for (int j = prev + 1; j < smalls.size(); j++){
-            std::vector<Int>::iterator it;
-            it = std::lower_bound(main.begin(), main.begin() + j, smalls[j].value);
-            main.insert(it, smalls[j]);
-    }
     bigs = main;
-    // std::cout << "\n*******************\n";
-    // for (int i = 0; i < bigs.size(); i++){
-        // std::cout << ' ' << bigs[i];
-    // } 
-    // std::cout << "\n*******************\n";
 }
 void PmergeMe::sortVector(int ac, char **av)
 {
