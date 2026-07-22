@@ -161,7 +161,6 @@ void PmergeMe::insert(std::vector<Int>& smalls, std::vector<Int>& bigs){
         {
             std::vector<Int>::iterator it;
             it = std::lower_bound(main.begin(), main.end() - pair, smalls[j].value);
-            // std::cout << "Inserting " << smalls[j] << " at position " << std::distance(main.begin(), it) << std::endl;
             main.insert(it, smalls[j]);
             pair++;
         }
