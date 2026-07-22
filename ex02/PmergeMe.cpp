@@ -173,10 +173,15 @@ void PmergeMe::sortVector(int ac, char **av)
     parseInput(ac, av);
     std::cout << "Before: ";
     printSequence();
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
     mergeInsertSortVect(vec);
+    gettimeofday(&end, NULL);
+    double time = (end.tv_sec - start.tv_sec) * 1000000.0 + (end.tv_usec - start.tv_usec);
     std::cout << "After: ";
     for (int i = 0; i < vec.size(); i++)
         std::cout << vec[i] << ' ';
     std::cout << '\n';
     std::cout << "comparisons: " << Int::counter << std::endl;
+    std::cout << "Time to process with std::vector: " << time << " us" << std::endl;
 }

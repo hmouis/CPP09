@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <sys/time.h>
 
 struct Int{
     Int(int value): value(value) {}
