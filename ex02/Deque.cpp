@@ -52,14 +52,14 @@ bool Deque::isValidPositiveInteger(const std::string &value, int &number){
 void Deque::parseInput(int argc, char **argv){
     std::set<int> seen;
     if (argc < 2)
-        throw std::runtime_error("Error");
+        throw std::runtime_error("Error, No arguments");
     for (int i = 1; i < argc; ++i)
     {
         int number = 0;
         if (!isValidPositiveInteger(argv[i], number))
-            throw std::runtime_error("Error");
+            throw std::runtime_error("Error, Invalid positive integer");
         if (seen.count(number))
-            throw std::runtime_error("Error");
+            throw std::runtime_error("Error, Duplicate");
         seen.insert(number);
         deq.push_back(IntDe(number));
     }
