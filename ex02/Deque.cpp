@@ -1,4 +1,4 @@
-#include "PmergeMe.hpp"
+#include "Deque.hpp"
 
 #include <cerrno>
 #include <climits>
@@ -9,17 +9,17 @@
 #include <stdexcept>
 #include <set>
 
-int Int::counter = 0;
-std::ostream& operator<<(std::ostream& out, const Int& n){
+int IntDe::deqcounter = 0;
+std::ostream& operator<<(std::ostream& out, const IntDe& n){
     out << n.value;
     return out;
 }
-bool Int::operator<(const Int &n) {
-    counter++;
+bool IntDe::operator<(const IntDe &n) {
+    deqcounter++;
     return value < n.value;
 }
 
-bool PmergeMe::isValidPositiveInteger(const std::string &value, int &number){
+bool Deque::isValidPositiveInteger(const std::string &value, int &number){
     if (value.empty())
         return false;
     for (size_t i = 0; i < value.size(); ++i){
@@ -33,7 +33,7 @@ bool PmergeMe::isValidPositiveInteger(const std::string &value, int &number){
     number = static_cast<int>(parsed);
     return true;
 }
-void PmergeMe::parseInput(int argc, char **argv){
+void Deque::parseInput(int argc, char **argv){
     std::set<int> seen;
     if (argc < 2)
         throw std::runtime_error("Error");
@@ -45,21 +45,21 @@ void PmergeMe::parseInput(int argc, char **argv){
         if (seen.count(number))
             throw std::runtime_error("Error");
         seen.insert(number);
-        vec.push_back(Int(number));
+        deq.push_back(IntDe(number));
     }
     seen.clear();
 }
-void PmergeMe::printSequence(){
-    for (size_t i = 0; i < vec.size(); ++i)
+void Deque::printSequence(){
+    for (size_t i = 0; i < deq.size(); ++i)
     {
         if (i != 0)
             std::cout << ' ';
-        std::cout << vec[i];
+        std::cout << deq[i];
     }
     std::cout << std::endl;
 }
-void PmergeMe::createPairs(std::vector<Int>& smalls, std::vector<Int>& main){
-    std::vector<Int> bigs;
+void Deque::createPairs(std::deque<IntDe>& smalls, std::deque<IntDe>& main){
+    std::deque<IntDe> bigs;
     int strag = 0;
     if (main.size() % 2)
         strag = 1;
@@ -79,20 +79,20 @@ void PmergeMe::createPairs(std::vector<Int>& smalls, std::vector<Int>& main){
         smalls.push_back(*(main.rbegin()));
     main = bigs;
 }
-void PmergeMe::indexPairs(std::vector<Int>& smalls, std::vector<Int>& bigs){
+void Deque::indexPairs(std::deque<IntDe>& smalls, std::deque<IntDe>& bigs){
     for (int i = 0; i < bigs.size(); i++)
         bigs[i].ids.push_back(i);
     for (int i = 0; i < smalls.size(); i++)
         smalls[i].ids.push_back(i);
 }
-void PmergeMe::orderTheSmalls(std::vector<Int>& smalls, std::vector<Int>& bigs){
-    std::vector<Int> ordered;
+void Deque::orderTheSmalls(std::deque<IntDe>& smalls, std::deque<IntDe>& bigs){
+    std::deque<IntDe> ordered;
 
     for (int i = 0; i < bigs.size(); i++){
         int index = bigs[i].ids.back();
         if (bigs[i].ids.size() > 1)
             bigs[i].ids.pop_back();
-        std::vector<Int>::iterator it;
+        std::deque<IntDe>::iterator it;
         for (it = smalls.begin(); it != smalls.end(); it++){
             if (it->ids.back() == index)
                 break;
@@ -110,21 +110,21 @@ void PmergeMe::orderTheSmalls(std::vector<Int>& smalls, std::vector<Int>& bigs){
     smalls.clear();
     smalls = ordered;
 }
-void PmergeMe::mergeInsertSortVect(std::vector<Int>& main){
-    std::vector<Int> smalls;
+void Deque::mergeInsertSortDeque(std::deque<IntDe>& main){
+    std::deque<IntDe> smalls;
     
     if (main.size() <= 1)
         return ;
     createPairs(smalls, main);
     indexPairs(smalls, main);
-    mergeInsertSortVect(main);
+    mergeInsertSortDeque(main);
     orderTheSmalls(smalls, main);
     insert(smalls, main);
 
 }
-std::vector<int> PmergeMe::getJacobsthalSequence(int n){
-    std::vector<int> sequence;
-    std::vector<int> newsequence;
+std::deque<int> Deque::getJacobsthalSequence(int n){
+    std::deque<int> sequence;
+    std::deque<int> newsequence;
     if (n <= 1){
         sequence.push_back(n);
         return sequence;
@@ -142,9 +142,9 @@ std::vector<int> PmergeMe::getJacobsthalSequence(int n){
         newsequence.push_back(sequence[i]);
     return newsequence;
 }
-void PmergeMe::insert(std::vector<Int>& smalls, std::vector<Int>& bigs){
-    std::vector<int> seq;
-    std::vector<Int> main;
+void Deque::insert(std::deque<IntDe>& smalls, std::deque<IntDe>& bigs){
+    std::deque<int> seq;
+    std::deque<IntDe> main;
 
     seq = getJacobsthalSequence(bigs.size());
     main.push_back(smalls[0]);
@@ -160,7 +160,7 @@ void PmergeMe::insert(std::vector<Int>& smalls, std::vector<Int>& bigs){
         int pair = 0;
         for (int j = curr_seq; j > prev; j--)
         {
-            std::vector<Int>::iterator it;
+            std::deque<IntDe>::iterator it;
             it = std::lower_bound(main.begin(), main.end() - pair, smalls[j].value);
             main.insert(it, smalls[j]);
             pair++;
@@ -169,19 +169,17 @@ void PmergeMe::insert(std::vector<Int>& smalls, std::vector<Int>& bigs){
     }
     bigs = main;
 }
-void PmergeMe::sortVector(int ac, char **av)
+void Deque::sortDeque(int ac, char **av)
 {
     parseInput(ac, av);
-    std::cout << "Before: ";
-    printSequence();
     struct timeval start, end;
     gettimeofday(&start, NULL);
-    mergeInsertSortVect(vec);
+    mergeInsertSortDeque(deq);
     gettimeofday(&end, NULL);
     double time = (end.tv_sec - start.tv_sec) * 1000000.0 + (end.tv_usec - start.tv_usec);
     std::cout << "After: ";
-    for (int i = 0; i < vec.size(); i++)
-        std::cout << vec[i] << ' ';
+    for (int i = 0; i < deq.size(); i++)
+        std::cout << deq[i] << ' ';
     std::cout << '\n';
-    std::cout << "Time to process a range of " << vec.size() << " elements with std::vector : " << std::fixed << std::setprecision(3) << time << " us" << std::endl;
+    std::cout << "Time to process a range of " << deq.size() << " elements with std::deque : " << std::fixed << std::setprecision(3) << time << " us" << std::endl;
 }

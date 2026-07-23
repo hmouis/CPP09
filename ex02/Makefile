@@ -3,7 +3,7 @@ NAME = PmergeMe
 C = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRC = main.cpp PmergeMe.cpp
+SRC = main.cpp PmergeMe.cpp Deque.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(NAME)
