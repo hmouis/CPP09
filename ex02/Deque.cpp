@@ -193,9 +193,5 @@ void Deque::sortDeque(int ac, char **av)
     mergeInsertSortDeque(deq);
     gettimeofday(&end, NULL);
     double time = (end.tv_sec - start.tv_sec) * 1000000.0 + (end.tv_usec - start.tv_usec);
-    std::cout << "After: ";
-    for (int i = 0; i < deq.size(); i++)
-        std::cout << deq[i] << ' ';
-    std::cout << '\n';
     std::cout << "Time to process a range of " << deq.size() << " elements with std::deque : " << std::fixed << std::setprecision(3) << time << " us" << std::endl;
 }
