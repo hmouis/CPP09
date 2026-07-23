@@ -35,7 +35,7 @@ int RPN::evaluate(const std::string& Input)
 
     while (stream >> token)
     {
-        if (token.size() == 1 && std::isdigit(static_cast<unsigned char>(token[0])))
+        if (token.size() == 1 && std::isdigit(token[0]))
             values.push(token[0] - '0');
         else if (isOperator(token))
         {
