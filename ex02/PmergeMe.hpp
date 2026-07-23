@@ -30,6 +30,11 @@ class PmergeMe
 
 
     public:
+        PmergeMe();
+        PmergeMe(const PmergeMe& other);
+        PmergeMe& operator=(const PmergeMe& other);
+        ~PmergeMe();
+
         void sortVector(int ac, char **av);
 
 };

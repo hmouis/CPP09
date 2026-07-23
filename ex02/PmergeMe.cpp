@@ -19,6 +19,22 @@ bool Int::operator<(const Int &n) {
     return value < n.value;
 }
 
+PmergeMe::PmergeMe(){}
+
+PmergeMe::PmergeMe(const PmergeMe& other)
+{
+    *this = other;
+}
+
+PmergeMe& PmergeMe::operator=(const PmergeMe& other)
+{
+    if (this != &other)
+        vec = other.vec;
+    return *this;
+}
+
+PmergeMe::~PmergeMe(){}
+
 bool PmergeMe::isValidPositiveInteger(const std::string &value, int &number){
     if (value.empty())
         return false;

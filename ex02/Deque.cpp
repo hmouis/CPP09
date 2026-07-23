@@ -19,6 +19,22 @@ bool IntDe::operator<(const IntDe &n) {
     return value < n.value;
 }
 
+Deque::Deque(){}
+
+Deque::Deque(const Deque& other)
+{
+    *this = other;
+}
+
+Deque& Deque::operator=(const Deque& other)
+{
+    if (this != &other)
+        deq = other.deq;
+    return *this;
+}
+
+Deque::~Deque(){}
+
 bool Deque::isValidPositiveInteger(const std::string &value, int &number){
     if (value.empty())
         return false;

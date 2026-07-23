@@ -30,6 +30,11 @@ class Deque
 
 
     public:
+        Deque();
+        Deque(const Deque& other);
+        Deque& operator=(const Deque& other);
+        ~Deque();
+
         void sortDeque(int ac, char **av);
 
 };
