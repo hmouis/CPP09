@@ -51,6 +51,10 @@ int BitcoinExchange::ValidDate(float y, float m, float d)
         std::cout << "Error: Invalid date => " << date << std::endl;
         return 1;
     }
+    if (m == 1 && d < 2){
+        std::cout << "Error: Invalid date => " << date << std::endl;
+        return 1;       
+    }
     if ((m == 2 && (d < 1 || d > 28)) || ((m == 4 || m == 6 || m == 9 || m == 11) && (d < 1 || d > 30)) || (d < 1 || d > 31)){
         std::cout << "Error: Invalid date => " << date << std::endl;
         return 1;
