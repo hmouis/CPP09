@@ -124,6 +124,8 @@ void BitcoinExchange::ParseFile(std::string file)
     if (!inputfile.is_open())
         throw std::runtime_error("Error: Can't open the file");
     while (std::getline(inputfile, line)){
+        if (line == "date | value")
+            continue;
         if (ParseLine(line))
             continue;
         std::map<std::string, float>::iterator it;
