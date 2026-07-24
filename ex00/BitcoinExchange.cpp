@@ -23,7 +23,7 @@ void BitcoinExchange::FillMap(){
 
     std::ifstream file("data.csv");
     if (!file.is_open())
-        throw std::runtime_error("Error: Can't open the file");
+        throw std::runtime_error("Error: could not open file.");
     std::getline(file, line);
     while (std::getline(file, line)){
         std::string key = strtok((char *)line.c_str(), ",");
