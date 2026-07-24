@@ -6,7 +6,7 @@
 #include <sys/time.h>
 
 struct Int{
-    Int(int value): value(value) {}
+    Int(int value);
     static int counter;
     int value;
     std::vector<int> ids;

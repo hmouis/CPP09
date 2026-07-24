@@ -10,6 +10,7 @@
 #include <set>
 
 int IntDe::deqcounter = 0;
+IntDe::IntDe(int value): value(value) {}
 std::ostream& operator<<(std::ostream& out, const IntDe& n){
     out << n.value;
     return out;

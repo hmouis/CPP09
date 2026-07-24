@@ -10,6 +10,8 @@
 #include <set>
 
 int Int::counter = 0;
+Int::Int(int value): value(value) {}
+
 std::ostream& operator<<(std::ostream& out, const Int& n){
     out << n.value;
     return out;

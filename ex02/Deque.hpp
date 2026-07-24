@@ -6,7 +6,7 @@
 #include <sys/time.h>
 
 struct IntDe{
-    IntDe(int value): value(value) {}
+    IntDe(int value);
     static int deqcounter;
     int value;
     std::deque<int> ids;
