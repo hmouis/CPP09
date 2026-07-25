@@ -178,7 +178,7 @@ void Deque::insert(std::deque<IntDe>& smalls, std::deque<IntDe>& bigs){
         for (int j = curr_seq; j > prev; j--)
         {
             std::deque<IntDe>::iterator it;
-            it = std::lower_bound(main.begin(), main.end() - pair, smalls[j].value);
+            it = std::lower_bound(main.begin(), main.end() - pair, smalls[j]);
             main.insert(it, smalls[j]);
             pair++;
         }
