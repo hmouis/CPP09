@@ -68,17 +68,12 @@ void PmergeMe::parseInput(int argc, char **argv){
     seen.clear();
 }
 void PmergeMe::printSequence(){
-    size_t size = vec.size();
-    if (size > 10)
-        size = 3;
-    for (size_t i = 0; i < size; ++i)
+    for (size_t i = 0; i < vec.size(); ++i)
     {
         if (i != 0)
             std::cout << ' ';
         std::cout << vec[i];
     }
-    if (size != vec.size())
-        std::cout << " [...]";
     std::cout << std::endl;
 }
 void PmergeMe::createPairs(std::vector<Int>& smalls, std::vector<Int>& main){
@@ -203,13 +198,8 @@ void PmergeMe::sortVector(int ac, char **av)
     gettimeofday(&end, NULL);
     double time = (end.tv_sec - start.tv_sec) * 1000000.0 + (end.tv_usec - start.tv_usec);
     std::cout << "After:  ";
-    size_t size = vec.size();
-    if (size > 10)
-        size = 3;
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < vec.size(); i++)
         std::cout << vec[i] << ' ';
-    if (size != vec.size())
-        std::cout << " [...]";
     std::cout << '\n';
     std::cout << "Time to process a range of " << vec.size() << " elements with std::vector : " << std::fixed << std::setprecision(3) << time << " us" << std::endl;
 }
