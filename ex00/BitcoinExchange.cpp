@@ -26,12 +26,12 @@ void BitcoinExchange::FillMap(){
         throw std::runtime_error("Error: could not open file.");
     std::getline(file, line);
     while (std::getline(file, line)){
-        std::string key = strtok((char *)line.c_str(), ",");
-        float val = strtof(strtok(NULL, ","), NULL);
+        size_t pos = line.find(',');
+        std::string key = line.substr(0, pos);
+        float val = strtof(line.substr(pos + 1).c_str(), NULL);
         btc[key] = val;
     }
     file.close();
-
 }
 std::string trim(std::string str, char c) {
     size_t first = str.find_first_not_of(c);
@@ -43,7 +43,7 @@ std::string trim(std::string str, char c) {
 
 int BitcoinExchange::ValidDate(float y, float m, float d)
 {
-    if (y < 2009 || (double)y > 2147483647){
+    if (y < 2009 || y > 2022){
         std::cout << "Error: Invalid date => " << date << std::endl;
         return 1;
     }
@@ -51,11 +51,18 @@ int BitcoinExchange::ValidDate(float y, float m, float d)
         std::cout << "Error: Invalid date => " << date << std::endl;
         return 1;
     }
-    if (y == 2009 && m == 1 && d < 2){
+    if ((y == 2009 && m == 1 && d < 2) || (y == 2022 && (m  > 3 || ( m == 3 && d > 29)))){
         std::cout << "Error: Invalid date => " << date << std::endl;
         return 1;       
     }
-    if ((m == 2 && (d < 1 || d > 28)) || ((m == 4 || m == 6 || m == 9 || m == 11) && (d < 1 || d > 30)) || (d < 1 || d > 31)){
+    bool leap = (y == 2012 || y == 2016 || y == 2020);
+    if (m == 2){
+        if (d < 1 || d > (leap ? 29 : 28)){
+            std::cout << "Error: Invalid date => " << date << std::endl;
+            return 1;
+        }
+    }
+    if (((m == 4 || m == 6 || m == 9 || m == 11) && (d < 1 || d > 30)) || (d < 1 || d > 31)){
         std::cout << "Error: Invalid date => " << date << std::endl;
         return 1;
     }
@@ -67,12 +74,13 @@ int BitcoinExchange::ValidNumberOfBitcoin(std::string _nob){
         return 1;
     }
     char *endptr;
+    errno = 0;
     nob = strtof(_nob.c_str(), &endptr);
     if (*endptr){
         std::cout << "Error: Bad Number of bitcoin => " << _nob << std::endl;
         return 1;
     }
-    if (nob > 1000){
+    if (errno == ERANGE || nob > 1000){
         std::cout << "Error: Too large number" << std::endl;
         return 1;
     }
@@ -109,14 +117,16 @@ int BitcoinExchange::ParseLine(std::string line)
         std::cout << "Error: Bad input => " << line << std::endl;
         return 1;
     }
-    date = trim(strtok((char *)line.c_str(), "|"), ' ');
+    size_t pos = line.find('|');
+    date = trim(line.substr(0, pos), ' ');
+    std::string value = trim(line.substr(pos + 1), ' ');
     if (date.length() != 10){
         std::cout << "Error: Bad input => " << date << std::endl;
         return 1;
     }
-    if (ValidDate(y, m, d)) 
+    if (ValidDate(y, m, d))
         return 1;
-    if (ValidNumberOfBitcoin(trim(strtok(NULL, "|"), ' ')))
+    if (ValidNumberOfBitcoin(value))
         return 1;
     return 0;
 }

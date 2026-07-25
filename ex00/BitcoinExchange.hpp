@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <sstream>
+#include <cerrno>
 #include <map>
 
 class BitcoinExchange
